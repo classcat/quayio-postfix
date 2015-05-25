@@ -16,7 +16,7 @@ RUN apt-get update && apt-get -y upgrade \
   && update-locale LANG="en_US.UTF-8" \
   && apt-get install -y openssh-server supervisor rsyslog mysql-client \
   && mkdir -p /var/run/sshd \
-  && sed -ri "s/^PermitRootLogin\s+.*/PermitRootLogin yes/" /etc/ssh/sshd_config \
+  && sed -ri "s/^PermitRootLogin\s+.*/PermitRootLogin yes/" /etc/ssh/sshd_config
 # RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 
 ADD assets/supervisord.conf /etc/supervisor/supervisord.conf
@@ -25,7 +25,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN  bash -c 'debconf-set-selections <<< "postfix postfix/main_mailer_type string Internet site"' \
   && bash -c 'debconf-set-selections <<< "postfix postfix/mailname string mail.example.com"' \
-  && apt-get update && apt-get -y install postfix sasl2-bin spamassassin spamc \
+  && apt-get -y install postfix sasl2-bin spamassassin spamc \
   && apt-get clean
 
 WORKDIR /opt
